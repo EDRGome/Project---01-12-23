@@ -1,19 +1,17 @@
-const connection = require("../database") //insert query que será adicionado ao banco de dados para inserir o user ao banco
+const connection = require("../database")
 
 class userController {
   async create(req, res) {
-    //função assícrona // é necessáriaela para se connectar com o banco de dados
-    const { name_users, email, password_users } = req.body //
+    const { id_users, name_users, email, password_users } = req.body //
 
     const sql =
-      "INSERT INTO users (name_users, email, password_users) VALUES ( ?, ?, ?)" // fazendo insert // será necessário um método no user controller para exibir os usuários cadastrados, será necessário o select
+      "INSERT INTO users (id_users, name_users, email, password_users) VALUES (?, ?, ?, ?)"
 
-    const values = [name_users, email, password_users] // email password_users
+    const values = [id_users, name_users, email, password_users]
+
     connection.query(sql, values, (err, results) => {
-      //consulta sql
       if (err) {
-        console.error("Erro ao inserir o usuário.")
-        //res.send()
+        console.error("Erro ao inserir o usuário.", err)
       } else {
         console.log("Usuário cadastrado com sucesso!")
         res.json({ message: "Usuario cadastrado com sucesso!" })

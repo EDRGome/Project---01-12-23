@@ -15,6 +15,11 @@ connection.connect((err) => {
   }
 })
 
+/*
+app.get("/", (req,res) => ){
+	console.log
+}
+*/
 app.listen(3000, () => {
   console.log("Servidor rodando na porta 3000")
 })

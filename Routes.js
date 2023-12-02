@@ -1,11 +1,10 @@
 const { Router } = require("express")
-
-const UserController = require("./Controller/userController")
+const userController = require("./Controller/userController")
 
 const router = Router()
 
-const userController = new UserController()
+const UserController = new userController()
 
-router.post("/criar", userController.create)
+router.post("/criar", UserController.create)
 
 module.exports = router
