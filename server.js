@@ -3,7 +3,7 @@ const connection = require("./database")
 
 const app = express()
 
-connection.connection((err) => {
+connection.connect((err) => {
 	if (err) {
 		console.error('Erro ao conectar a o banco de dados', err)
 	} else {
