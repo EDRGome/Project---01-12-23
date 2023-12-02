@@ -1,1 +1,1 @@
-First commit congratulations! From remote :)
+Formas de exportar algo de dentro de um módulo NODE para ser usado em outro arquivo
