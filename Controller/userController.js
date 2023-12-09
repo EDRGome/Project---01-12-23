@@ -3,26 +3,47 @@ const connection = require("../database")
 const AppError = require("../AppError")
 
 class userController {
-  async create(req, res) {
-    const { id_users, name_users, email, password_users } = req.body //
+  async create(req, res) {}
+
+  async update(req, res) {
+    const { id_users, name_users, email, password_users } = req.body
 
     const senhaCriptografada = await bcrypt.hash(password_users, 8)
 
-    if (!name_users) {
-      throw new AppError("O nome é obrigatório!")
+    if (!name_users && !email && !password_users) {
+      throw new AppError("Nenhum dado de usuário para atualizar foi fornecido")
     }
 
-    const sql =
-      "INSERT INTO users (id_users, name_users, email, password_users) VALUES (?, ?, ?, ?)"
+    let updateFields = "SET "
+    const updateValues = []
 
-    const values = [id_users, name_users, email, senhaCriptografada]
+    if (name_users) {
+      updateFields += "name_users = ?, "
+      updateValues.push(name_users)
+    }
 
-    connection.query(sql, values, (err, results) => {
+    if (email) {
+      updateFields += "email = ?, "
+      updateValues.push(email)
+    }
+
+    if (password_users) {
+      updateFields += "password_users = ?, "
+      updateValues.push(senhaCriptografada)
+    }
+
+    updateFields = updateFields.slice(0, -2)
+
+    const sql = `UPDATE users ${updateFields} WHERE id_users = ?`
+    updateValues.push(id_users)
+
+    connection.query(sql, updateValues, (err, results) => {
       if (err) {
-        console.error("Erro ao inserir o usuário.", err)
+        console.error("Erro ao atualizar o usuário.", err)
+        res.status(500).json({ message: "Erro ao atualizar o usuário" })
       } else {
-        console.log("Usuário cadastrado com sucesso!")
-        res.json({ message: "Usuario cadastrado com sucesso!" })
+        console.log("Usuário atualizado com sucesso!")
+        res.json({ message: "Usuário atualizado com sucesso!" })
       }
     })
   }

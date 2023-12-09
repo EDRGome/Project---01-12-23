@@ -7,4 +7,6 @@ const UserController = new userController()
 
 router.post("/criar", UserController.create)
 
+router.put("/atualizar", UserController.update)
+
 module.exports = router
